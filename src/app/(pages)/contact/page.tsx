@@ -1,31 +1,37 @@
 "use client"
+import React from 'react';
 import Link from 'next/link';
 import { FaLinkedin, FaGithub, FaDollarSign } from 'react-icons/fa';
 
 export default function ContactSection() {
-
-  async function handleSubmit(event:any) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.target);
+    const formData = new FormData(event.currentTarget);
 
     formData.append("access_key", "ca06216d-822a-423c-bfc0-51330bdcf7c8");
 
     const object = Object.fromEntries(formData);
     const json = JSON.stringify(object);
 
-    const response = await fetch("https://api.web3forms.com/submit", {
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json"
+          Accept: "application/json",
         },
-        body: json
-    });
-    const result = await response.json();
-    if (result.success) {
+        body: json,
+      });
+      
+      const result = await response.json();
+      if (result.success) {
         console.log(result);
+      }
+    } catch (error) {
+      console.error("Error submitting the form:", error);
     }
-}
+  }
+
   return (
     <>
       <section className="min-h-screen flex items-stretch text-white">
@@ -33,7 +39,7 @@ export default function ContactSection() {
           className="lg:flex w-1/2 hidden bg-gray-500 bg-no-repeat bg-cover relative items-center"
           style={{
             backgroundImage:
-              "url(https://images.unsplash.com/photo-1577495508048-b635879837f1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80)"
+              "url(https://images.unsplash.com/photo-1577495508048-b635879837f1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80)",
           }}
         >
           <div className="absolute bg-black opacity-60 inset-0 z-0" />
@@ -65,14 +71,14 @@ export default function ContactSection() {
             className="absolute lg:hidden z-10 inset-0 bg-gray-500 bg-no-repeat bg-cover items-center"
             style={{
               backgroundImage:
-                "url(https://images.unsplash.com/photo-1577495508048-b635879837f1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80)"
+                "url(https://images.unsplash.com/photo-1577495508048-b635879837f1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80)",
             }}
           >
             <div className="absolute bg-black opacity-60 inset-0 z-0" />
           </div>
           <div className="w-full py-6 z-20">
             <h1 className="mb-4 text-xl font-sans font-bold">Give Us Your Feedback</h1>
-            <form action="" onSubmit={handleSubmit} className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
+            <form onSubmit={handleSubmit} className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
               <div className="pb-2 pt-4">
                 <input
                   type="email"
@@ -91,14 +97,21 @@ export default function ContactSection() {
                   placeholder="name"
                 />
                 <div className="relative mt-4">
-                  <label htmlFor="message" className="leading-7 text-sm text-gray-400">Message</label>
-                  <textarea id="message" name="message" className="w-full bg-gray-900 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+                  <label htmlFor="message" className="leading-7 text-sm text-gray-400">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    className="w-full bg-gray-900 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
+                  ></textarea>
                 </div>
               </div>
-              <div className="text-right text-gray-400 hover:underline hover:text-gray-100">
-              </div>
               <div className="px-4 pb-2 pt-4">
-                <button type="submit" className="block w-full p-4 text-xl font-bold font-sans rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none">
+                <button
+                  type="submit"
+                  className="block w-full p-4 text-xl font-bold font-sans rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none"
+                >
                   Send
                 </button>
               </div>

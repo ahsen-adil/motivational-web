@@ -1,5 +1,4 @@
 import { FaBrain, FaMountain, FaUnlock, FaClock, FaRedo, FaEye } from 'react-icons/fa'
-import image from "../../images/motivation.png"
 import image1 from "../../images/you-can-do-it.png"
 import Image from 'next/image'
 
